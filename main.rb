@@ -1,6 +1,6 @@
-require_relative 'lib/product'
-require_relative 'lib/movie'
-require_relative 'lib/book'
+require_relative "lib/product"
+require_relative "lib/movie"
+require_relative "lib/book"
 
 stuff = []
 
@@ -36,7 +36,7 @@ stuff << Book.new(
   amount: 20
 )
 
-puts 'Список товаров нашего магазина:'
+puts "Список товаров нашего магазина:"
 puts
 
 stuff.each do |item|
