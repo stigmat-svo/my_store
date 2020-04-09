@@ -1,24 +1,19 @@
 class Book < Product
-  attr_accessor :title, :author, :genre
+  attr_accessor :title, :genre, :author
 
   def initialize(params)
     super
-
     @title = params[:title]
-    @author = params[:author]
     @genre = params[:genre]
+    @author = params[:author]
   end
 
   def to_s
-    "Книга '#{@title}', #{@genre}, автор - #{@author}, #{super}"
+    "#{full_name}, #{super}"
   end
 
-  def update(params)
-    super
-
-    @title = params[:title] if params[:title]
-    @author = params[:author] if params[:author]
-    @genre = params[:genre] if params[:genre]
+  def full_name
+    "Книга '#{@title}', #{@genre}. Автор — #{@author}"
   end
 
   def self.from_file(path)
@@ -33,5 +28,5 @@ class Book < Product
       price: lines[3].to_i,
       amount: lines[4].to_i
     )
-  end
+    end
 end

@@ -1,30 +1,45 @@
-require_relative "lib/product"
-require_relative "lib/movie"
-require_relative "lib/book"
-require_relative "lib/product_collection"
+require_relative 'lib/cart'
 
-puts "Список товаров нашего магазина:"
+collection = ProductCollection.from_dir(__dir__)
+
+showcase = collection.to_a.select do |product|
+  product.amount.positive?
+end
+  .sample(15)
+
+cart = Cart.new
+
+until showcase.empty?
+  showcase.each_with_index do |product, index|
+    puts "#{index + 1}. #{product}"
+  end
+
+  puts "0. Выход"
+
+  choice = STDIN.gets.to_i
+
+  if choice.zero?
+    break
+  end
+
+  purchase_product = showcase[choice - 1]
+
+  cart.add_product(purchase_product)
+
+  puts "\nВы выбрали: #{purchase_product} \n\n"
+
+  purchase_product.amount -= 1
+
+  if purchase_product.amount.zero?
+    showcase.delete(purchase_product)
+  end
+end
+
+if cart.empty?
+  exit
+end
 puts
 
-=begin
-movie = Movie.from_file(File.dirname(__FILE__) + "/data/movies/03.txt")
-book = Book.from_file(File.dirname(__FILE__) + "/data/books/05.txt")
-
-puts movie
-puts book
-=end
-
-collection = ProductCollection.from_dir(File.dirname(__FILE__) + '/data')
-
-collection.sort!(by: :price, order: :asc)
-
-collection.to_a.each do |product|
-  puts product
-end
-
-begin
-  Product.from_file(File.dirname(__FILE__) + "/data/movies/*.txt")
-rescue NotImplementedError
-  puts "\n! ! ! Ошибка ! ! !"
-  puts "Дочерний класс пытается создать себя, используя статический метод родителя."
-end
+puts "Вы купили:"
+puts cart.prod_in_cart
+puts "\nС Вас — #{cart.total_price} руб. Спасибо за покупки!"

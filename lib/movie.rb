@@ -1,24 +1,19 @@
 class Movie < Product
-  attr_accessor :title, :director, :year
+  attr_accessor :title, :year, :director
 
   def initialize(params)
     super
-
     @title = params[:title]
-    @director = params[:director]
     @year = params[:year]
+    @director = params[:director]
   end
 
   def to_s
-    "Фильм '#{@title}', #{@year}, режиссер - #{@director}, #{super}"
+    "#{full_name}, #{super}"
   end
 
-  def update(params)
-    super
-
-    @title = params[:title] if params[:title]
-    @director = params[:director] if params[:director]
-    @year = params[:year] if params[:year]
+  def full_name
+    "Фильм '#{@title}', #{@year}. Режиссер - #{@director}"
   end
 
   def self.from_file(path)
@@ -34,5 +29,4 @@ class Movie < Product
       amount: lines[4].to_i
     )
   end
-
 end

@@ -1,46 +1,32 @@
-class ProductCollection
-  PRODUCT_TYPES = {
-    movie: {dir: "movies", class: Movie},
-    book: {dir: "books", class: Book}
-  }
+require_relative 'product'
+require_relative 'movie'
+require_relative 'book'
+require_relative 'disk'
 
+class ProductCollection
   def initialize(products = [])
     @products = products
   end
 
   def self.from_dir(dir_path)
-    products = []
+    paths = Dir[File.join(dir_path, 'data', '*', '*.txt')]
 
-    PRODUCT_TYPES.each do |type, hash|
-      product_dir = hash[:dir]
-
-      product_class = hash[:class]
-
-      Dir[dir_path + "/" + product_dir + "/*.txt"].each do |path|
-        products << product_class.from_file(path)
-      end
+    products = paths.map do |path|
+      type = File.basename(File.dirname(path)).chop.capitalize
+      Object.const_get(type).from_file(path)
     end
 
-    self.new(products)
+    new(products)
   end
 
   def to_a
     @products
   end
 
-  def sort!(params)
-    case params[:by]
-    when :title
-      @products.sort_by! { |product| product.to_s }
-    when :price
-      @products.sort_by! { |product| product.price }
-    when :amount
-      @products.sort_by! { |product| product.amount }
+  def show_product
+    to_a.select do |product|
+      product.amount > 0
     end
-
-    @products.reverse! if params[:order] == :asc
-
-    self
   end
-end
 
+end
