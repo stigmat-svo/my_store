@@ -8,6 +8,8 @@ end).sample(15)
 
 cart = Cart.new
 
+puts "Здравствуйте! Вот выбор товаров нашего магазина:\n\n"
+
 until showcase.empty?
   showcase.each_with_index do |product, index|
     puts "#{index + 1}. #{product}"
@@ -38,6 +40,7 @@ until showcase.empty?
 end
 
 if cart.empty?
+  puts "\nВы ничего не купили. До свидания!"
   exit
 end
 

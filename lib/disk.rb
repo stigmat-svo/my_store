@@ -13,7 +13,7 @@ class Disk < Product
   end
 
   def full_name
-    "Альбом #{@artist} — #{@album}, #{@genre}"
+    "Альбом #{@artist} — '#{@album}', #{@genre}"
   end
 
   def self.from_file(path)
