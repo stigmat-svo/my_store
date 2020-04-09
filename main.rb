@@ -2,10 +2,9 @@ require_relative 'lib/cart'
 
 collection = ProductCollection.from_dir(__dir__)
 
-showcase = collection.to_a.select do |product|
+showcase = (collection.to_a.select do |product|
   product.amount.positive?
-end
-  .sample(15)
+end).sample(15)
 
 cart = Cart.new
 
@@ -14,7 +13,10 @@ until showcase.empty?
     puts "#{index + 1}. #{product}"
   end
 
-  puts "0. Выход"
+  puts "\nЧтобы закончить покупки, нажмите 0."
+
+  puts "\nВведите номер товара, который хотите приобрести:"
+  print ">> "
 
   choice = STDIN.gets.to_i
 
@@ -38,8 +40,8 @@ end
 if cart.empty?
   exit
 end
-puts
 
-puts "Вы купили:"
+
+puts "\nВы купили:"
 puts cart.prod_in_cart
 puts "\nС Вас — #{cart.total_price} руб. Спасибо за покупки!"
