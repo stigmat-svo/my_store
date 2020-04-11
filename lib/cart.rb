@@ -18,9 +18,9 @@ class Cart < ProductCollection
     @products.empty?
   end
 
-  def prod_in_cart
+  def to_s
     @products.uniq.map do |product|
-      CartProduct.new(product, @products.count(product))
-    end
+      "#{CartProduct.new(product, @products.count(product))}"
+    end.join("\n")
   end
 end

@@ -1,9 +1,9 @@
 class Disk < Product
-  attr_accessor :album, :genre, :artist
+  attr_accessor :title, :genre, :artist
 
   def initialize(params)
     super
-    @album = params[:album]
+    @album = params[:title]
     @genre = params[:genre]
     @artist = params[:artist]
   end
@@ -22,7 +22,7 @@ class Disk < Product
     end
 
     self.new(
-      album: lines[0],
+      title: lines[0],
       artist: lines[1],
       genre: lines[2],
       year: lines[3].to_i,
