@@ -24,7 +24,7 @@ until choice == 0
     break
   end
 
-  purchase_product = collection.to_a[choice - 1]
+  purchase_product = collection.product_by_index(choice)
 
   cart.add_product(purchase_product)
 

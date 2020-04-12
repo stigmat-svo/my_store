@@ -13,7 +13,7 @@ class Product
   def buy
     if amount > 0
       self.amount -= 1
-      return price
+      price
     else
       nil
     end

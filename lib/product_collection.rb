@@ -21,6 +21,22 @@ class ProductCollection
     self.new(products)
   end
 
+  def total_price
+    @products.map(&:price).sum
+  end
+
+  def add_product(product)
+    @products << product
+  end
+
+  def remove_product(product)
+    @products -= product
+  end
+
+  def empty?
+    @products.empty?
+  end
+
   def to_a
     @products
   end
@@ -35,18 +51,18 @@ class ProductCollection
     end
   end
 
-  def product_by_index
-    product_types.map do |type|
-      products_by_type(type)
-    end
-      .flatten
-      .map.with_index(1) do |product, index|
-      "#{index}. #{product}"
-    end.join("\n")
+  def product_by_index(product)
+    @products.to_a[product - 1]
   end
 
   def to_s
-    "#{product_by_index}"
+    "#{product_types.map do |type|
+      products_by_type(type)
+    end
+         .flatten
+         .map.with_index(1) do |product, index|
+      "#{index}. #{product}"
+    end.join("\n")}"
   end
 
   def sort!(by:, order: :asc)
